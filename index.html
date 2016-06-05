@@ -23,7 +23,7 @@
     <header>
       <div class="container">
         <h1>Live Codechef Ranklist</h1>
-        <h2>Shiv Nadar University</h2>
+        <h2 id='institue' contenteditable='true'>Shiv Nadar University, Chithera</h2>
 
       </div>
     </header>
@@ -46,51 +46,70 @@
 
     var container = [];
 
-    contests.forEach(function(item, index){
+    var University = 'Shiv Nadar University, Chithera';
 
-      $.ajax({
-        type: "GET",
-        dataType: 'json',
-        url: 'https://cc-bouncer.herokuapp.com/'+item.name+'/Institution%3DShiv%20Nadar%20University%2C%20Chithera',
-        success: function(data) {
-          d = data.result.list;
-
-          contents = '<h2>Codechef.com '+item.name+' Challenge</h2>'
-
-          contents += '<table>';
-
-          contents += '<th>Rank</th><th>Score</th><th>User Handle</th>'
+    $(document).ready(fetchContents());
 
 
-          for(i = 0; i < d.length; i++){
-            contents += '<tr>';
-            contents += '<td>' + d[i].rank + '</td>';
-            contents += '<td>' + d[i].score + '</td>';
-            contents += '<td>' + '<a href="https://www.codechef.com/users/' + d[i].user_handle + '">' +d[i].user_handle + '</a>'  + '</td>';
-            contents += '</tr>';
+    function fetchContents(){
+
+      contests.forEach(function(item, index){
+
+        $.ajax({
+          type: "GET",
+          dataType: 'json',
+          url: 'https://cc-bouncer.herokuapp.com/'+item.name+'/Institution%3D'+University,
+          success: function(data) {
+            d = data.result.list;
+
+            contents = '<h2>Codechef.com '+item.name+' Challenge</h2>'
+
+            contents += '<table>';
+
+            contents += '<th>Rank</th><th>Score</th><th>User Handle</th>'
+
+
+            for(i = 0; i < d.length; i++){
+              contents += '<tr>';
+              contents += '<td>' + d[i].rank + '</td>';
+              contents += '<td>' + d[i].score + '</td>';
+              contents += '<td>' + '<a href="https://www.codechef.com/users/' + d[i].user_handle + '">' +d[i].user_handle + '</a>'  + '</td>';
+              contents += '</tr>';
+            }
+
+
+            contents += '</table><hr>';
+            container.push({content: contents, id: item.id});
+
+            container.sort(function(a,b) {return (a.id < b.id) ? 1 : ((b.id > a.id) ? -1 : 0);});
+
+            //re-render on another successful ajax req
+            document.getElementById("ranklist").innerHTML = "";
+
+            container.forEach(function(item, index){
+              document.getElementById("ranklist").innerHTML += item.content;
+            });
+
+          },
+          error: function(e) {
+            console.log(e.message);
           }
-
-
-          contents += '</table><hr>';
-          container.push({content: contents, id: item.id});
-
-          container.sort(function(a,b) {return (a.id < b.id) ? 1 : ((b.id > a.id) ? -1 : 0);});
-
-          //re-render on another successful ajax req
-          document.getElementById("ranklist").innerHTML = "";
-
-          container.forEach(function(item, index){
-            document.getElementById("ranklist").innerHTML += item.content;
-          });
-
-        },
-        error: function(e) {
-          console.log(e.message);
-        }
+        });
+        
       });
-      
-    });
+    }
 
+
+    $('#institue').blur(function() {
+      if(University != $(this).html()){
+        University = $(this).html();
+        //clear current contents
+        document.getElementById("ranklist").innerHTML = "";
+        container = [];
+
+        fetchContents()
+      }
+    })
 
       
     </script>
