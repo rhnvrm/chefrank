@@ -22,17 +22,17 @@
 
     <header>
       <div class="container">
-        <h1>Live Competitive Ranklist of SNU Students</h1>
-        <h2></h2>
+        <h1>Live Codechef Ranklist</h1>
+        <h2>Shiv Nadar University</h2>
 
       </div>
     </header>
 
     <div class="container">
       <section id="main_content">
-        <h2>Codechef.com April Challenge</h2>
+        
 
-        <div id = "rank-cc-apr-16"></div>
+        <div id = "ranklist"></div>
 
       </section>
       <section id="footer">
@@ -42,34 +42,57 @@
 
     <script>
 
+    var contests = [{name:'JUNE16',id:166} , {name:'MAY16',id:165} , {name:'APRIL16',id:164}];
+
+    var container = [];
+
+    contests.forEach(function(item, index){
+
       $.ajax({
         type: "GET",
         dataType: 'json',
-        url: 'https://cc-bouncer.herokuapp.com/APRIL16/Institution%3DShiv%20Nadar%20University%2C%20Chithera',
+        url: 'https://cc-bouncer.herokuapp.com/'+item.name+'/Institution%3DShiv%20Nadar%20University%2C%20Chithera',
         success: function(data) {
           d = data.result.list;
 
-          inside = '<table>';
+          contents = '<h2>Codechef.com '+item.name+' Challenge</h2>'
 
-          inside += '<th>Rank</th><th>Score</th><th>User Handle</th>'
+          contents += '<table>';
+
+          contents += '<th>Rank</th><th>Score</th><th>User Handle</th>'
 
 
           for(i = 0; i < d.length; i++){
-            inside += '<tr>';
-            inside += '<td>' + d[i].rank + '</td>';
-            inside += '<td>' + d[i].score + '</td>';
-            inside += '<td>' + '<a href="https://www.codechef.com/users/' + d[i].user_handle + '">' +d[i].user_handle + '</a>'  + '</td>';
-            inside += '</tr>';
+            contents += '<tr>';
+            contents += '<td>' + d[i].rank + '</td>';
+            contents += '<td>' + d[i].score + '</td>';
+            contents += '<td>' + '<a href="https://www.codechef.com/users/' + d[i].user_handle + '">' +d[i].user_handle + '</a>'  + '</td>';
+            contents += '</tr>';
           }
 
 
-          inside += '</table>';
-          document.getElementById("rank-cc-apr-16").innerHTML = inside;
+          contents += '</table><hr>';
+          container.push({content: contents, id: item.id});
+
+          container.sort(function(a,b) {return (a.id < b.id) ? 1 : ((b.id > a.id) ? -1 : 0);});
+
+          //re-render on another successful ajax req
+          document.getElementById("ranklist").innerHTML = "";
+
+          container.forEach(function(item, index){
+            document.getElementById("ranklist").innerHTML += item.content;
+          });
+
         },
         error: function(e) {
           console.log(e.message);
         }
       });
+      
+    });
+
+
+      
     </script>
     
   </body>
