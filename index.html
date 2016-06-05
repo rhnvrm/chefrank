@@ -23,8 +23,8 @@
     <header>
       <div class="container">
         <h1>Live Codechef Ranklist</h1>
-        <h2 id='institue' contenteditable='true'>Shiv Nadar University, Chithera</h2>
-
+        <h2 id='institue' style="margin:0px;border:solid 1px #2e3e0f" onclick="document.execCommand('selectAll',false,null)" contenteditable='true'>Shiv Nadar University, Chithera</h2>
+        <h4 style="color:#b4b4b4; font-size:x-small; margin:0px;" id='suggestions'></h4>
       </div>
     </header>
 
@@ -99,17 +99,42 @@
       });
     }
 
+    $('#institue').bind('keypress',function(e){
+      if(e.which == 32){
+        //space
+        $.ajax({
+          type: "GET",
+          dataType: 'json',
+          url: 'https://cc-bouncer.herokuapp.com/autocomplete/'+contests[0].name+'/'+$(this).html(),
+          success: function(data) {
+            //empty before adding
+            $('#suggestions').html('');
 
-    $('#institue').blur(function() {
-      if(University != $(this).html()){
-        University = $(this).html();
-        //clear current contents
-        document.getElementById("ranklist").innerHTML = "";
-        container = [];
+            data.result.forEach(function(item, index){
+              document.getElementById('suggestions').innerHTML += '<a href="#" class="suggestion-item" id="'+item.text+ '">' + item.text + '</a>,'; 
+            })
 
-        fetchContents()
+            $('a.suggestion-item').click(function(){
+            //console.log(this.id)
+
+            document.getElementById("institue").innerHTML = this.id;
+
+            //empty before updating
+            $('#suggestions').html('');
+
+            //render data of new uni
+            University = this.id;
+            document.getElementById("ranklist").innerHTML = "";
+            container = [];
+
+            fetchContents()
+
+          });
+          }
+        });
       }
-    })
+    });
+
 
       
     </script>
