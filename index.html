@@ -22,9 +22,12 @@
 
     <header>
       <div class="container">
-        <h1>Live Codechef Ranklist</h1>
+        <div>
+        <img src="images/chefrank.png">
+        <h1 style="display:inline; margin: 0px;">chefrank</h1>
+        </div>  
         <h2 id='institue' style="margin:0px;border:solid 1px #2e3e0f" onclick="document.execCommand('selectAll',false,null)" contenteditable='true'>Shiv Nadar University, Chithera</h2>
-        <h4 style="color:#b4b4b4; font-size:x-small; margin:0px;" id='suggestions'><i>new auto-complete feature:</i> try editing the institute</h4>
+        <h4 style="color:#b4b4b4; font-size:x-small; margin:0px;" id='suggestions'><i>new:</i> autocomplete with the spacebar</h4>
       </div>
     </header>
 
@@ -36,7 +39,10 @@
 
       </section>
       <section id="footer">
-        <b>Why is my handle not here?</b>&nbsp;<i>Set your University as 'Shiv Nadar University, Chithera' on <a href="http://codechef.com">codechef</a></a></i>
+      <ul>
+        <li><b>Why is my handle not here?</b>&nbsp;<i>Set your Institute in <a href='http://codechef.com/'>codechef</a> as eg. 'Shiv Nadar University, Chithera'</i></li>
+        <li><b>made with love </b> by <a href="http://rohanverma.net">rhnvrm</a> using <a href="https://github.com/rhnvrm/chefrank">rhnvrm/codechef-api-bouncer</a></li>
+      </ul> 
       </section>
     </div>
 
@@ -48,7 +54,17 @@
 
     var University = 'Shiv Nadar University, Chithera';
 
-    $(document).ready(fetchContents());
+    $(document).ready(function(){
+      if(window.location.hash){
+        University = window.location.hash.split('#')[1];
+
+      }
+      else{
+        window.location.hash = University;
+      }
+      document.getElementById("institue").innerHTML = University;
+      fetchContents();
+    });
 
 
     function fetchContents(){
@@ -92,7 +108,9 @@
 
           },
           error: function(e) {
-            console.log(e.message);
+            fetchContents();
+            console.log("Error fetching data");
+            console.log(e.message);            
           }
         });
         
@@ -111,7 +129,7 @@
             $('#suggestions').html('');
 
             data.result.forEach(function(item, index){
-              document.getElementById('suggestions').innerHTML += '<a href="#" class="suggestion-item" id="'+item.text+ '">' + item.text + '</a>,'; 
+              document.getElementById('suggestions').innerHTML += '<a href="#'+item.text+'" class="suggestion-item" id="'+item.text+ '">' + item.text + '</a>,'; 
             })
 
             $('a.suggestion-item').click(function(){
@@ -130,6 +148,10 @@
             fetchContents()
 
           });
+          },
+          error: function(e) {
+            console.log("Error fetching data");
+            console.log(e.message);            
           }
         });
       }
