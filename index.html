@@ -128,7 +128,8 @@
             $('#suggestions').html('');
 
             data.result.forEach(function(item, index){
-              document.getElementById('suggestions').innerHTML += '<a href="#'+item.text+'" class="suggestion-item" id="'+item.text+ '">' + item.text + '</a>,'; 
+              encodedInsti = encodeURIComponent(item.text);
+              document.getElementById('suggestions').innerHTML += '<a href="#'+encodedInsti+'" class="suggestion-item" id="'+encodedInsti+ '">' + item.text + '</a>,'; 
             })
 
             $('a.suggestion-item').click(function(){
