@@ -12,7 +12,6 @@ body {
 
 .container {
   width: 90%;
-  max-width: 600px;
   margin: 0 auto;
 }
 
@@ -244,4 +243,10 @@ a {
 
 .cf {
   zoom:1;
+}
+
+@media only screen and (max-device-width: 480px) {
+  body{
+    font-size: 2em;
+  }
 }
