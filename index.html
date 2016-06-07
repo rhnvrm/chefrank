@@ -27,7 +27,7 @@
         <h1 style="display:inline; margin: 0px;">chefrank</h1>
         </div>  
         <h2 id='institue' style="margin:0px;border:solid 1px #2e3e0f" onclick="document.execCommand('selectAll',false,null)" contenteditable='true'>Shiv Nadar University, Chithera</h2>
-        <h4 style="color:#b4b4b4; margin:0px;" id='suggestions'><span style="font-size: x-small"><i>new:</i> autocomplete with the spacebar</h4>
+        <h4 style="color:#b4b4b4; margin:0px;" id='suggestions'><span style="font-size: x-small"><i>new:</i> try the autocomplete feature</h4>
       </div>
     </header>
 
@@ -117,8 +117,6 @@
     }
 
     $('#institue').bind('keypress',function(e){
-      if(e.which == 32){
-        //space
         $.ajax({
           type: "GET",
           dataType: 'json',
@@ -153,7 +151,6 @@
             console.log(e.message);            
           }
         });
-      }
     });
 
 
