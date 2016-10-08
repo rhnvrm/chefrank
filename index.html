@@ -47,8 +47,13 @@
     </div>
 
     <script>
-
-    var contests = [{name:'JUNE16',id:166} , {name:'MAY16',id:165} , {name:'APRIL16',id:164}];
+    var monthNames = ["JAN", "FEB", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUG", "SEPT", "OCT", "NOV", "DEC"];
+    var currentMonth = monthNames[new Date().getMonth()];
+    var prevMonth = monthNames[new Date().getMonth()-1];
+    var prev2prevMonth = monthNames[new Date().getMonth()-2];
+    var currentYear = new Date().getFullYear().toString().substr(2,2) ;
+      
+    var contests = [{name:currentMonth+currentYear,id:166} , {name:prevMonth+currentYear,id:165} , {name:prev2prevMonth+currentYear,id:164}];
 
     var container = [];
 
