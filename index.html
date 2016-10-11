@@ -56,6 +56,7 @@
     var contests = [{name:currentMonth+currentYear,id:166} , {name:prevMonth+currentYear,id:165} , {name:prev2prevMonth+currentYear,id:164}];
 
     var container = [];
+    var data_got = {0:false, 1:false, 2:false};
 
     var University = 'Shiv Nadar University, Chithera';
 
@@ -80,6 +81,8 @@
           dataType: 'json',
           url: 'https://cc-bouncer.herokuapp.com/'+item.name+'/Institution%3D'+University,
           success: function(data) {
+            if(data_got[index] == true)
+              return;
             d = data.result.list;
 
             contents = '<h2>Codechef.com '+item.name+' Challenge</h2>'
@@ -109,6 +112,7 @@
             container.forEach(function(item, index){
               document.getElementById("ranklist").innerHTML += item.content;
             });
+            data_got[index] = true;
 
           },
           error: function(e) {
@@ -146,6 +150,7 @@
               University = this.id;
               document.getElementById("ranklist").innerHTML = "";
               container = [];
+              data_got = {0:false, 1:false, 2:false};
 
               fetchContents()
 
