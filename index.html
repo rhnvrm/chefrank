@@ -53,10 +53,9 @@
     var prev2prevMonth = monthNames[new Date().getMonth()-2];
     var currentYear = new Date().getFullYear().toString().substr(2,2) ;
       
-    var contests = [{name:currentMonth+currentYear,id:166} , {name:prevMonth+currentYear,id:165} , {name:prev2prevMonth+currentYear,id:164}];
+    var contests = [{name:currentMonth+currentYear,id:166,fetched:false} , {name:prevMonth+currentYear,id:165,fetched:false} , {name:prev2prevMonth+currentYear,id:164,fetched:false}];
 
     var container = [];
-    var data_got = {0:false, 1:false, 2:false};
 
     var University = 'Shiv Nadar University, Chithera';
 
@@ -81,7 +80,7 @@
           dataType: 'json',
           url: 'https://cc-bouncer.herokuapp.com/'+item.name+'/Institution%3D'+University,
           success: function(data) {
-            if(data_got[index] == true)
+            if(contests[index]["fetched"] == true)
               return;
             d = data.result.list;
 
@@ -112,7 +111,7 @@
             container.forEach(function(item, index){
               document.getElementById("ranklist").innerHTML += item.content;
             });
-            data_got[index] = true;
+            contests[index]["fetched"] = true;
 
           },
           error: function(e) {
@@ -149,8 +148,6 @@
               //render data of new uni
               University = this.id;
               document.getElementById("ranklist").innerHTML = "";
-              container = [];
-              data_got = {0:false, 1:false, 2:false};
 
               fetchContents()
 
