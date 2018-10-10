@@ -2,7 +2,9 @@ var monthNames = ["JAN", "FEB", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUG", 
 var currentMonth = monthNames[new Date().getMonth()];
 var prevMonth = monthNames[new Date().getMonth()-1];
 var prev2prevMonth = monthNames[new Date().getMonth()-2];
-var currentYear = new Date().getFullYear().toString().substr(2,2) ;
+// Removed for showing historical data, as this project is not under active development.
+// var currentYear = new Date().getFullYear().toString().substr(2,2) ;
+var currentYear = '16' ;
   
 var contests = [{name:currentMonth+currentYear,id:166,fetched:false} , {name:prevMonth+currentYear,id:165,fetched:false} , {name:prev2prevMonth+currentYear,id:164,fetched:false}];
 
